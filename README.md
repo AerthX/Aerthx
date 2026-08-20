@@ -353,14 +353,6 @@ npm run dev
 * Referral system
 * AI-based sustainability insights
 
----
-
-# 👨‍💻 Author
-
-Hrithik Patil
-Full Stack Developer (MERN)
-
----
 
 # 🏁 Conclusion
 
