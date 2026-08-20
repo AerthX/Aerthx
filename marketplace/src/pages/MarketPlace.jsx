@@ -92,16 +92,19 @@ const MarketPlace = () => {
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#06120c]/85 via-[#06120c]/80 to-[#06120c]" />
         <div className="relative mx-auto w-full max-w-7xl px-3 sm:px-6 py-16 sm:py-20 md:py-24 text-center">
-          <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-950/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+        <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-950/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
             Verified • Transparent • Impactful
           </span>
-          <h1 className="mt-5 text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            🌱 AerthX Marketplace
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 sm:mb-6 leading-tight tracking-tight font-['Plus_Jakarta_Sans']">
+           <span className="bg-linear-to-r from-[#1A5C38] to-[#2E8B57] bg-clip-text text-transparent">
+             AerthX
+        </span>{" "}
+        <span className="text-white">Marketplace</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base md:text-lg text-emerald-50/80 px-2">
             Support trusted carbon offset projects through a transparent marketplace built for meaningful climate action.
           </p>
-        </div>
+    </div>
       </section>
 
       <div className="w-full max-w-7xl mx-auto">
