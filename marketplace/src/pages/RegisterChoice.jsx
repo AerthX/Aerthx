@@ -1,108 +1,167 @@
-import React, { useState } from "react";
-import OrganizationRegisterForm from "./OrganizationRegisterForm";
-import IndividualRegisterForm from "./IndividualRegisterForm";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const RegisterChoice = () => {
-  const [isIndividual, setIsIndividual] = useState(false);
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 overflow-x-hidden">
+    <div className="h-screen w-full overflow-hidden bg-black">
+      <div className="flex h-full w-full flex-col md:flex-row">
+        
+        {/* Organization */}
+        <div
+          className="
+            group relative
+            h-1/2 w-full md:h-full md:w-1/2
+            bg-green-600
+            flex flex-col items-center justify-center
+            p-8
+            text-center text-white
+            cursor-pointer
+            overflow-hidden
+          "
+          onClick={() => navigate("/register")}
+        >
+          {/* Background hover effect */}
+          <div
+            className="
+              absolute inset-0
+              bg-gradient-to-br from-green-500 to-green-800
+              opacity-0
+              group-hover:opacity-100
+              transition-opacity duration-500
+            "
+          />
 
-      {/* ================= MOBILE / TABLET ================= */}
-      <div className="lg:hidden min-h-screen flex flex-col">
-
-        {/* TOP PANEL */}
-        <div className="bg-gradient-to-br from-green-800 via-green-900 to-black text-white px-5 py-8 text-center">
-          <h2 className="text-3xl font-bold mb-3">
-            {isIndividual
-              ? "Individual Registration"
-              : "Organization Registration"}
+          <h2
+            className="
+              relative z-10
+              text-3xl sm:text-4xl md:text-5xl
+              font-extrabold
+              mb-6
+              leading-tight
+            "
+          >
+            For Businesses & Teams
           </h2>
 
-          <p className="text-sm text-gray-200 max-w-md mx-auto mb-5 leading-relaxed">
-            {isIndividual
-              ? "Create your personal account and begin your sustainability journey."
-              : "Register your organization and manage carbon credit operations professionally."}
+          <p
+            className="
+              relative z-10
+              text-base sm:text-lg md:text-xl
+              mb-10
+              max-w-sm
+              opacity-0
+              group-hover:opacity-100
+              transition-opacity duration-500
+            "
+          >
+            Empower your organization to make a significant environmental
+            impact. Manage your carbon footprint and track your sustainability
+            efforts.
           </p>
 
           <button
-            onClick={() => setIsIndividual(!isIndividual)}
-            className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-full font-semibold transition-all"
+            type="button"
+            className="
+              relative z-10
+              px-12 py-4
+              bg-white text-green-800
+              rounded-full
+              text-base sm:text-lg md:text-xl
+              font-bold
+              shadow-lg
+              translate-y-8
+              opacity-0
+              group-hover:translate-y-0
+              group-hover:opacity-100
+              transition-all duration-500
+              focus:outline-none
+              focus:ring-4
+              focus:ring-white/50
+            "
           >
-            {isIndividual
-              ? "Switch to Organization"
-              : "Switch to Individual"}
+            Register as Organization
           </button>
         </div>
 
-        {/* MOBILE FORM */}
-        <div className="flex-1 px-4 py-6">
-          <div className="max-w-2xl mx-auto">
-            {isIndividual ? (
-              <IndividualRegisterForm />
-            ) : (
-              <OrganizationRegisterForm />
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* ================= DESKTOP ================= */}
-      <div className="hidden lg:flex relative min-h-screen overflow-hidden bg-white">
-
-        {/* SLIDING GREEN PANEL */}
+        {/* Individual */}
         <div
-          className={`absolute top-0 left-0 w-1/2 h-full bg-gradient-to-br from-green-800 via-green-900 to-black text-white flex items-center justify-center p-12 z-20 transition-transform duration-700 ease-in-out ${
-            isIndividual ? "translate-x-full" : "translate-x-0"
-          }`}
+          className="
+            group relative
+            h-1/2 w-full md:h-full md:w-1/2
+            bg-white
+            flex flex-col items-center justify-center
+            p-8
+            text-center text-gray-900
+            cursor-pointer
+            overflow-hidden
+          "
+          onClick={() => navigate("/register-individual")}
         >
-          <div className="max-w-md text-center">
+          {/* Background hover effect */}
+          <div
+            className="
+              absolute inset-0
+              bg-gradient-to-br from-gray-100 to-gray-300
+              opacity-0
+              group-hover:opacity-100
+              transition-opacity duration-500
+            "
+          />
 
-            <h2 className="text-5xl font-extrabold mb-6 leading-tight">
-              {isIndividual ? "Already Registered?" : "New Here?"}
-            </h2>
+          <h2
+            className="
+              relative z-10
+              text-3xl sm:text-4xl md:text-5xl
+              font-extrabold
+              mb-6
+              leading-tight
+            "
+          >
+            For Individuals
+          </h2>
 
-            <p className="text-lg text-gray-200 mb-8 leading-relaxed">
-              {isIndividual
-                ? "Switch back to register as an organization and manage your carbon projects professionally."
-                : "Register as an individual to join the carbon offsetting journey."}
-            </p>
+          <p
+            className="
+              relative z-10
+              text-base sm:text-lg md:text-xl
+              mb-10
+              max-w-sm
+              opacity-0
+              group-hover:opacity-100
+              transition-opacity duration-500
+            "
+          >
+            Start your personal journey towards a greener planet. Offset your
+            individual carbon emissions and contribute to a healthier
+            environment.
+          </p>
 
-            <button
-              onClick={() => setIsIndividual(!isIndividual)}
-              className="bg-green-500 hover:bg-green-600 px-6 py-3
-md:px-8 md:py-4 rounded-full text-lg font-semibold transition-all hover:scale-105 shadow-xl"
-            >
-              {isIndividual
-                ? "Register as Organization"
-                : "Register as Individual"}
-            </button>
-
-          </div>
+          <button
+            type="button"
+            className="
+              relative z-10
+              px-12 py-4
+              bg-black text-white
+              rounded-full
+              text-base sm:text-lg md:text-xl
+              font-bold
+              shadow-lg
+              translate-y-8
+              opacity-0
+              group-hover:translate-y-0
+              group-hover:opacity-100
+              transition-all duration-500
+              focus:outline-none
+              focus:ring-4
+              focus:ring-black/50
+            "
+          >
+            Register as Individual
+          </button>
         </div>
 
-        {/* SLIDING FORMS CONTAINER */}
-        <div
-          className={`flex w-[200%] min-h-screen transition-transform duration-700 ease-in-out ${
-            isIndividual ? "-translate-x-1/2" : "translate-x-0"
-          }`}
-        >
-
-          {/* ORGANIZATION FORM */}
-          <div className="w-1/2 flex items-center justify-end bg-white px-16 py-10">
-            <div className="w-full max-w-2xl">
-              <OrganizationRegisterForm />
-            </div>
-          </div>
-
-          {/* INDIVIDUAL FORM */}
-          <div className="w-1/2 flex items-center justify-start bg-white px-16 py-10">
-            <div className="w-full max-w-2xl">
-              <IndividualRegisterForm />
-            </div>
-          </div>
-
-        </div>
       </div>
     </div>
   );
