@@ -20,9 +20,9 @@ router.post('/', authMiddleware, requireAdmin, upload.fields([
   { name: 'backgroundImage', maxCount: 1 }
 ]), async (req, res) => {
   try {
-    const data = req.body;
+ const data = req.body;
 
-  let imagePath = data.imageUrl || "";
+let imagePath = "";
 
 if (req.files?.image?.[0]) {
   const result = await uploadToImageKit(
@@ -30,10 +30,11 @@ if (req.files?.image?.[0]) {
     `credit_${Date.now()}`,
     "/carbonCredits"
   );
+
   imagePath = result.url;
 }
 
-let backgroundImagePath = data.backgroundImageUrl || "";
+let backgroundImagePath = "";
 
 if (req.files?.backgroundImage?.[0]) {
   const result = await uploadToImageKit(
@@ -41,6 +42,7 @@ if (req.files?.backgroundImage?.[0]) {
     `credit_bg_${Date.now()}`,
     "/carbonCredits"
   );
+
   backgroundImagePath = result.url;
 }
 
@@ -219,13 +221,12 @@ if (req.files?.image?.[0]?.buffer) {
       `credit_${Date.now()}`,
       "/carbonCredits"
     );
+
     imagePath = result.url;
   } catch (err) {
     console.error("Image upload failed:", err.message);
   }
-} else if (data.imageUrl) {
-  imagePath = data.imageUrl;
-} 
+}
 
 let backgroundImagePath = existingCredit.backgroundImage;
 
@@ -236,14 +237,12 @@ if (req.files?.backgroundImage?.[0]?.buffer) {
       `credit_bg_${Date.now()}`,
       "/carbonCredits"
     );
+
     backgroundImagePath = result.url;
   } catch (err) {
     console.error("Background upload failed:", err.message);
   }
-} else if (data.backgroundImageUrl) {
-  backgroundImagePath = data.backgroundImageUrl;
 }
-
 let certificateId = existingCredit?.certificateId;
 
 // 🔥 IF MISSING (rare case) → generate

@@ -14,45 +14,71 @@ const FAQManager = ({ category, title }) => {
     fetchFaqs();
   }, [category]);
 
-  const fetchFaqs = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/${category}`);
-      setFaqs(res.data);
-    } catch (err) {
-      console.error("Error fetching FAQs:", err);
-    }
-  };
-
-  const handleAddFAQ = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(API_URL, { question, answer, category }); 
-      setQuestion("");
-      setAnswer("");
-      setShowModal(false);
-      fetchFaqs();
-    } catch (err) {
-      console.error("Error adding FAQ:", err);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${API_URL}/${id}`);
-      fetchFaqs();
-    } catch (err) {
-      console.error("Error deleting FAQ:", err);
-    }
-  };
-
-  const handleUpdateFAQ = async (e) => {
-  e.preventDefault();
+const fetchFaqs = async () => {
   try {
-    await axios.put(`${API_URL}/${editingFAQ._id}`, {
-      question: editingFAQ.question,
-      answer: editingFAQ.answer,
-      category,
+    const res = await axios.get(`${API_URL}/${category}`, {
+      withCredentials: true,
     });
+
+    setFaqs(res.data);
+  } catch (err) {
+    console.error("Error fetching FAQs:", err);
+  }
+};
+
+const handleAddFAQ = async (e) => {
+  e.preventDefault();
+
+  try {
+    await axios.post(
+      API_URL,
+      {
+        question,
+        answer,
+        category,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
+    setQuestion("");
+    setAnswer("");
+    setShowModal(false);
+    fetchFaqs();
+  } catch (err) {
+    console.error("Error adding FAQ:", err);
+  }
+};
+
+ const handleDelete = async (id) => {
+  try {
+    await axios.delete(`${API_URL}/${id}`, {
+      withCredentials: true,
+    });
+
+    fetchFaqs();
+  } catch (err) {
+    console.error("Error deleting FAQ:", err);
+  }
+};
+
+const handleUpdateFAQ = async (e) => {
+  e.preventDefault();
+
+  try {
+    await axios.put(
+      `${API_URL}/${editingFAQ._id}`,
+      {
+        question: editingFAQ.question,
+        answer: editingFAQ.answer,
+        category,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+
     setEditingFAQ(null);
     fetchFaqs();
   } catch (err) {

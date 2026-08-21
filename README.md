@@ -357,8 +357,8 @@ npm run dev
 
 # 👨‍💻 Author
 
-Hrithik Patil
-Full Stack Developer (MERN)
+Hardik Patil
+Full Stack Developer
 
 ---
 
