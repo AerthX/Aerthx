@@ -17,6 +17,8 @@ import "jspdf-autotable";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+axios.defaults.withCredentials = true;;
+
 const AdminUserReports = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -47,47 +49,44 @@ const AdminUserReports = () => {
     fetchAdmins();
   }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${API_URL}/admin/users-reports`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUsers(res.data);
-    } catch (err) {
-      console.error(err);
-      showNotification("Failed to fetch users.", "error");
-    }
-  };
+const fetchUsers = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/admin/users-reports`);
+
+    setUsers(res.data);
+  } catch (err) {
+    console.error(err);
+    showNotification("Failed to fetch users.", "error");
+  }
+};
 
   const fetchAdmins = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${API_URL}/admin/admins`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setAdmins(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  try {
+    const res = await axios.get(`${API_URL}/admin/admins`);
 
-  const viewReports = async (userId) => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`${API_URL}/admin/user-reports/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setReports(res.data);
-      setSelectedUser(userId);
-    } catch (err) {
-      console.error(err);
-      showNotification("Failed to fetch reports.", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setAdmins(res.data);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const viewReports = async (userId) => {
+  setLoading(true);
+
+  try {
+    const res = await axios.get(
+      `${API_URL}/admin/user-reports/${userId}`
+    );
+
+    setReports(res.data);
+    setSelectedUser(userId);
+  } catch (err) {
+    console.error(err);
+    showNotification("Failed to fetch reports.", "error");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const openReportDetailsModal = (report) => {
     setReportDetails(report);
@@ -108,16 +107,14 @@ const AdminUserReports = () => {
   const handleSendEmail = async () => {
     setEmailLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `${API_URL}/admin/send-email/${emailUserId}`,
-        {
-          subject: emailSubject,
-          problem: emailProblem,
-          message: emailMessage,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+     await axios.post(
+  `${API_URL}/admin/send-email/${emailUserId}`,
+  {
+    subject: emailSubject,
+    problem: emailProblem,
+    message: emailMessage,
+  }
+);
       showNotification("Email sent successfully!", "success");
       setShowEmailModal(false);
       setEmailSubject("");
@@ -142,10 +139,9 @@ const AdminUserReports = () => {
   const handleDeleteReport = async () => {
     if (!reportToDeleteId) return;
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`${API_URL}/admin/delete-report/${reportToDeleteId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+     await axios.delete(
+  `${API_URL}/admin/delete-report/${reportToDeleteId}`
+);
       showNotification("Report deleted successfully!", "success");
       setReports((prev) => prev.filter((r) => r._id !== reportToDeleteId));
     } catch (err) {
@@ -159,12 +155,10 @@ const AdminUserReports = () => {
 
   const handleToggleStar = async (reportId) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.put(
-        `${API_URL}/admin/toggle-star/${reportId}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+    const res = await axios.put(
+  `${API_URL}/admin/toggle-star/${reportId}`,
+  {}
+);
       setReports((prevReports) =>
         prevReports.map((r) => (r._id === reportId ? res.data : r))
       );
@@ -185,21 +179,18 @@ const AdminUserReports = () => {
   };
 
  const handleSendNotification = async () => {
-  const token = localStorage.getItem("token"); 
   try {
-    await axios.post(
-      `${API_URL}/admin/send-notification/${notificationUserId}`,
-      {
-        userType: activeTab === "individual" ? "Individual" : "Organization",
-        title: notificationTitle,
-        description: notificationMessage,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+await axios.post(
+  `${API_URL}/admin/send-notification/${notificationUserId}`,
+  {
+    userType:
+      activeTab === "individual"
+        ? "Individual"
+        : "Organization",
+    title: notificationTitle,
+    description: notificationMessage,
+  }
+);
 
     alert("Notification sent successfully");
     setShowNotificationModal(false);
@@ -214,12 +205,10 @@ const AdminUserReports = () => {
 
   const handlePrioritizeReport = async (reportId, priority) => {
     try {
-      const token = localStorage.getItem("token");
       const res = await axios.put(
-        `${API_URL}/admin/update-report-priority/${reportId}`,
-        { priority },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  `${API_URL}/admin/update-report-priority/${reportId}`,
+  { priority }
+);
       setReports((prevReports) =>
         prevReports.map((r) => (r._id === reportId ? res.data : r))
       );
@@ -233,12 +222,10 @@ const AdminUserReports = () => {
 
   const handleAssignReport = async (reportId, adminId) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.put(
-        `${API_URL}/admin/assign-report/${reportId}`,
-        { adminId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+     const res = await axios.put(
+  `${API_URL}/admin/assign-report/${reportId}`,
+  { adminId }
+);
       setReports((prevReports) =>
         prevReports.map((r) => (r._id === reportId ? res.data : r))
       );
@@ -252,12 +239,10 @@ const AdminUserReports = () => {
 
   const handleMarkAsSeen = async (reportId) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await axios.put(
-        `${API_URL}/admin/update-report-seen/${reportId}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+     const res = await axios.put(
+  `${API_URL}/admin/update-report-seen/${reportId}`,
+  {}
+);
       setReports((prevReports) =>
         prevReports.map((r) => (r._id === reportId ? res.data : r))
       );

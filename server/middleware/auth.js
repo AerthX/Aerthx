@@ -4,9 +4,14 @@ const Organization = require("../models/Organization");
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.header("Authorization")?.replace(/^Bearer\s+/i, "");
-    if (!token) return res.status(401).json({ message: "No token provided" });
+    const token =
+  req.cookies?.accessToken ||
+  req.header("Authorization")?.replace(/^Bearer\s+/i, "");
 
+
+if (!token) {
+  return res.status(401).json({ message: "No token provided" });
+}
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userType = decoded.userType || (decoded.role === "organization" ? "Organization" : "Individual");
 

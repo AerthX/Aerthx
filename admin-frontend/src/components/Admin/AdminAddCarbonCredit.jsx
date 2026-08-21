@@ -73,8 +73,8 @@ const [bgPreview, setBgPreview] = useState(null);
     try {
       const API = import.meta.env.VITE_API_URL;
       await axios.post(`${API}/carbon-credits`, data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+  withCredentials: true,
+});
       alert('✅ Carbon Credit added!');
       setFormData({
         title: '', name: '', verifiedBy: '', category: '', projectType: '',

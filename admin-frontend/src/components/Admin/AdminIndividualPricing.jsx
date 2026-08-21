@@ -20,7 +20,12 @@ const AdminIndividualPricing = () => {
    useEffect(() => {
   const fetchConfig = async () => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/pricing/individual`);
+      const res = await fetch(
+  `${import.meta.env.VITE_API_URL}/admin/pricing/individual`,
+  {
+    credentials: "include",
+  }
+);
       if (!res.ok) throw new Error("No configuration found");
 
       const data = await res.json();
@@ -245,11 +250,17 @@ const isBoolean = true;
         setStatus({ message: "Saving changes...", type: "pending" });
         
         try {
-            const response = await fetch(`${API_URL}/admin/pricing/individual`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ plans, featureGroups })
-            });
+           const response = await fetch(`${API_URL}/admin/pricing/individual`, {
+  method: "POST",
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    plans,
+    featureGroups,
+  }),
+});
             const result = await response.json();
 
             if (!response.ok) throw new Error(result.message || "Failed to save");
