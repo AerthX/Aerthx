@@ -2,6 +2,8 @@ import { createBrowserRouter, createRoutesFromElements, Route } from 'react-rout
 import Root from '../Layout/Root';
 import MarketplaceHero from '../pages/MarketPlace';
 import RegisterChoice from '../pages/RegisterChoice';
+import OrganizationRegisterForm from '../pages/OrganizationRegisterForm';
+import RegisterIndividualForm from '../pages/IndividualRegisterForm';
 import Login from '../pages/Login';
 import SingleProject from '../pages/SingleProject';
 import Profile from '../pages/Profile';
@@ -31,12 +33,13 @@ import ErrorPage from '../pages/ErrorPage';
 import DashboardRedirect from "../Components/DashboardRedirect";
 import FeatureGate from "../Components/FeatureGate";
 import Settings from '../pages/Settings';
+import MarketplaceHeroPage from '../pages/MarketplacePage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Root />}>
-        <Route index element={<MarketplaceHero />} />
+        <Route index element={<MarketplaceHeroPage />} />
         <Route path="MarketplaceHero" element={<MarketplaceHero />} />
         <Route path="/project/:id" element={<SingleProject />} />
           <Route path="MarketplaceHero/pricing" element={<Pricing />} />
@@ -45,6 +48,16 @@ const router = createBrowserRouter(
       </Route>
  <Route path="/profile" element={<Profile />} />
       <Route path="/register-choice" element={<RegisterChoice />} />
+      <Route
+  path="/register"
+  element={<OrganizationRegisterForm />}
+/>
+
+<Route
+  path="/register-individual"
+  element={<RegisterIndividualForm />}
+/>
+
       <Route path="/verify-otp" element={<VerifyOtp />} />
       <Route path="/signin" element={<Login />} />
       <Route path="/logout" element={<GlobalLogout />} />
@@ -57,7 +70,7 @@ const router = createBrowserRouter(
                 <Route path="/settings" element={<Settings />} />
                 
 
-                	     <Route 
+                	 <Route 
   path="dashboard" 
   element={<RequireAuth><DashboardLayout /></RequireAuth>} 
   errorElement={<ErrorPage />}

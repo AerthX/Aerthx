@@ -102,19 +102,28 @@ const VerifyOtp = () => {
       );
 
       if (verifyOtpAction.fulfilled.match(resultAction)) {
-        const { token, user } = resultAction.payload;
+        console.log("OTP SUCCESS:", resultAction.payload);
+console.log("USER FROM OTP:", resultAction.payload.user);
+    const { accessToken, user } = resultAction.payload;
 
-        const normalizedUserType = userType.toLowerCase();
+const normalizedUserType = userType.toLowerCase();
 
-        dispatch(setUser(user));
-        dispatch(setToken(token));
-        dispatch(setUserType(normalizedUserType));
+// Update Redux immediately
+dispatch(setUser(user));
+dispatch(setToken(accessToken));
+dispatch(setUserType(normalizedUserType));
 
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("userType", normalizedUserType);
+// Save to localStorage
+localStorage.setItem("accessToken", accessToken);
+localStorage.setItem("user", JSON.stringify(user));
+localStorage.setItem("userType", normalizedUserType);
 
-        await dispatch(fetchProfile({ token, userType: normalizedUserType }));
+// Fetch latest profile
+await dispatch(
+  fetchProfile({
+    userType: normalizedUserType,
+  })
+);
 
         setVerificationMessage({ type: "success", text: "OTP verified successfully! Redirecting..." });
 
