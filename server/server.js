@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const profileRoutes = require("./routes/profileRoutes");
+const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/authRoutes");
 const orgRoutes = require("./routes/orgRoutes");
@@ -42,6 +43,8 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
 }));
 
+app.use(cookieParser());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -73,6 +76,7 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB connected");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    
   })
   .catch(err => {
     console.error("MongoDB connection error:", err);
