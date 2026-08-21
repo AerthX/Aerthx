@@ -353,14 +353,6 @@ npm run dev
 * Referral system
 * AI-based sustainability insights
 
----
-
-# 👨‍💻 Author
-
-Hardik Patil
-Full Stack Developer
-
----
 
 # 🏁 Conclusion
 
