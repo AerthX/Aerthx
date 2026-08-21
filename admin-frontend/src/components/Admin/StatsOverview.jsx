@@ -22,11 +22,14 @@ const formatINR = (num) => {
 const StatsOverview = () => {
   const [stats, setStats] = useState(null);
 
-  useEffect(() => {
-    axios.get(`${API}/admin/overview`)
-      .then(res => setStats(res.data))
-      .catch(err => console.error(err));
-  }, []);
+ useEffect(() => {
+  axios
+    .get(`${API}/admin/overview`, {
+      withCredentials: true,
+    })
+    .then((res) => setStats(res.data))
+    .catch((err) => console.error(err));
+}, []);
 
   if (!stats) {
     return (
