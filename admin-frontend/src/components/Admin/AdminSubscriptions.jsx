@@ -14,13 +14,26 @@ const AdminSubscriptions = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+const fetchData = async () => {
+  try {
     const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/admin/subscriptions`
+      `${import.meta.env.VITE_API_URL}/admin/subscriptions`,
+      {
+        credentials: "include",
+      }
     );
+
     const json = await res.json();
+
+    if (!res.ok) {
+      throw new Error(json.message || "Failed to fetch subscriptions");
+    }
+
     setData(json);
-  };
+  } catch (err) {
+    console.error("Error fetching subscriptions:", err);
+  }
+};
 
   // 🔥 TOGGLE SUSPEND / RESUME
   const toggleStatus = async (user) => {
@@ -32,10 +45,13 @@ const AdminSubscriptions = () => {
           ? "suspend"
           : "resume";
 
-      await fetch(
-        `${import.meta.env.VITE_API_URL}/admin/subscription/${endpoint}/${user.id}`,
-        { method: "PUT" }
-      );
+     await fetch(
+  `${import.meta.env.VITE_API_URL}/admin/subscription/${endpoint}/${user.id}`,
+  {
+    method: "PUT",
+    credentials: "include",
+  }
+);
 
       // 🔥 instant UI update (no reload feel)
       setData((prev) =>
