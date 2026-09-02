@@ -133,15 +133,4 @@ const submit = async (e) => {
 );
 }
 
-  return <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
-    <form onSubmit={submit} className="w-full max-w-md rounded-2xl  p-8 shadow-2xl">
-      <h1 className="text-3xl font-bold text-slate-900">AerthX Admin Portal</h1>
-      <p className="mt-2 text-sm text-slate-500">Authorized administrators only.</p>
-      {error && <div className="mt-5 rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</div>}
-      <label className="mt-6 block text-sm font-medium">Email<input value={email} onChange={e=>setEmail(e.target.value)} type="email" required className="mt-2 w-full rounded-lg border p-3" /></label>
-      <label className="mt-4 block text-sm font-medium">Password<input value={password} onChange={e=>setPassword(e.target.value)} type="password" required className="mt-2 w-full rounded-lg border p-3" /></label>
-      <button disabled={loading} className="mt-6 w-full rounded-lg bg-emerald-600 p-3 font-semibold  disabled:opacity-60">{loading ? "Signing in…" : "Admin Sign In"}</button>
-    </form>
-  </div>;
-}
 
