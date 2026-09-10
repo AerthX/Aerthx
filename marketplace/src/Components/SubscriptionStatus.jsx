@@ -4,7 +4,6 @@ import axios from "axios";
 const SubscriptionStatus = ({ userId, onSubscribe  }) => {
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("USER ID:", userId);
 
   useEffect(() => {
     const fetchSubscription = async () => {

@@ -68,7 +68,11 @@ export const verifyOtpAction = createAsyncThunk(
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("userType", userType);
 
-      return { token, user, userType };
+      return {
+  accessToken: token,
+  user,
+  userType,
+};
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || error.message || "OTP verification failed"
@@ -134,9 +138,16 @@ user: (() => {
     return null;
   }
 })(),
- token: localStorage.getItem("accessToken"),
-  userType: localStorage.getItem("userType") || null,
-  isLoggedIn: !!localStorage.getItem("accessToken"),
+token:
+  localStorage.getItem("accessToken") ||
+  localStorage.getItem("token") ||
+  null,
+
+userType: localStorage.getItem("userType") || null,
+
+isLoggedIn:
+  !!localStorage.getItem("accessToken") ||
+  !!localStorage.getItem("token"),
   isAuthModalOpen: false,
   loading: false,
   error: null,
@@ -207,7 +218,7 @@ localStorage.removeItem("userType");
 .addCase(verifyOtpAction.fulfilled, (state, action) => {
   state.loading = false;
   state.user = action.payload.user;
-  state.token = action.payload.token;
+  state.token = action.payload.accessToken;
   state.userType = action.payload.userType;
   state.isLoggedIn = true;
 })
