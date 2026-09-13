@@ -35,10 +35,9 @@ useEffect(() => {
     try {
    const res = await axios.get(`${API}/carbon-credits/active`);
 const projectsFromAPI = res.data;
-setAllProjects(projectsFromAPI); // store all projects
+setAllProjects(projectsFromAPI);
 
-
-const groupedByCategory = allProjects.reduce((acc, project) => {
+const groupedByCategory = projectsFromAPI.reduce((acc, project) => {
   if (!project.category) return acc;
   
   if (!acc[project.category]) {
@@ -54,14 +53,14 @@ const groupedByCategory = allProjects.reduce((acc, project) => {
 
 setCreditsByType(groupedByCategory);
 
-      const filtered = projectsFromAPI
-  .filter((p) => String(p.vintage).trim() === "2024")
-  .sort((a, b) => b.vintage - a.vintage);
+      const sortedProjects = [...projectsFromAPI].sort(
+  (a, b) => Number(b.vintage || 0) - Number(a.vintage || 0)
+);
 
-setProjects(filtered);
+setProjects(sortedProjects);
 
 
-      const mostExpensive = allProjects.length
+      const mostExpensive = projectsFromAPI.length
         ? allProjects.reduce(
             (max, curr) =>
               curr.pricePerTon > (max?.pricePerTon || 0) ? curr : max,
@@ -70,7 +69,7 @@ setProjects(filtered);
         : null;
       setHighestPricedProject(mostExpensive);
 
-      const sortedByPrice = [...allProjects]
+      const sortedByPrice = [...projectsFromAPI]
         .filter((p) => p.pricePerTon)
         .sort((a, b) => a.pricePerTon - b.pricePerTon);
       setLowestPricedProjects(sortedByPrice.slice(0, 4));
@@ -165,7 +164,7 @@ const impactfulProjects = [...allProjects]
            <button
   onClick={() => {
     if (isUserLoggedIn()) {
-      navigate("/marketplace");
+      navigate("/MarketplaceHero");
     } else {
       setShowAuthModal(true);
     }
