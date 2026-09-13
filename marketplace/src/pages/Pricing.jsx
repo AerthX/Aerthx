@@ -187,7 +187,7 @@ const calcSavings = (monthly, yearly) => {
   return 0;
 };
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/admin`;
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const Pricing = () => {
   const [selectedUserType, setSelectedUserType] = useState("individual");
@@ -207,7 +207,9 @@ const Pricing = () => {
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/pricing`);
+       const response = await fetch(`${API_BASE_URL}/pricing`, {
+  credentials: "include",
+});
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
