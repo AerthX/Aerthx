@@ -62,7 +62,7 @@ const itemVariants = {
 const MarketplaceHero = () => {
   const accessToken = localStorage.getItem("accessToken");
   const userType = localStorage.getItem("userType");
-  const marketplaceUrl = import.meta.env.VITE_MARKETPLACE_URL || "http://localhost:5174";
+  const marketplaceUrl = import.meta.env.VITE_MARKETPLACE_URL;
 
   const marketplaceLink = accessToken
     ? `${marketplaceUrl}/?accessToken=${encodeURIComponent(accessToken)}&userType=${encodeURIComponent(userType || "")}&user=${encodeURIComponent(localStorage.getItem("user") || "")}`
