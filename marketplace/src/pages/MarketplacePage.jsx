@@ -155,7 +155,7 @@ const impactfulProjects = [...allProjects]
 
             <div className="text-sm sm:text-base font-medium space-y-1 mb-4">
               <p className="text-green-300">
-                💰 ${current.pricePerTon?.toFixed(2)} / Ton
+                💰 Rs. {current.pricePerTon?.toFixed(2)} / Ton
               </p>
               <p className="text-gray-200">📅 Vintage: {current.vintage}</p>
             </div>
@@ -214,7 +214,7 @@ const impactfulProjects = [...allProjects]
             <p className="text-lg font-medium text-green-700 mb-6">
               💰 Price per Metric Ton:{" "}
               <span className="font-bold">
-                ${highestPricedProject.pricePerTon?.toFixed(2)}
+                Rs.{highestPricedProject.pricePerTon?.toFixed(2)}
               </span>
             </p>
 
@@ -253,7 +253,7 @@ const impactfulProjects = [...allProjects]
                     {project.title}
                   </h3>
                   <p className="text-green-300 mt-1 font-medium">
-                    💰 ${project.pricePerTon?.toFixed(2)} / Ton
+                    💰 Rs. {project.pricePerTon?.toFixed(2)} / Ton
                   </p>
                 </div>
               </div>
@@ -421,7 +421,7 @@ const impactfulProjects = [...allProjects]
                 <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
                   <h3 className="text-lg font-semibold truncate">{project.title}</h3>
                   <p className="text-green-300 mt-1 font-medium">
-                    💰 ${project.pricePerTon?.toFixed(2)} / Ton
+                    💰 Rs. {project.pricePerTon?.toFixed(2)} / Ton
                   </p>
                 </div>
               </div>
