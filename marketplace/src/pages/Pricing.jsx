@@ -204,7 +204,15 @@ const Pricing = () => {
 
   const navigate = useNavigate();
 
+
    useEffect(() => {
+
+
+    useEffect(() => {
+
+  useEffect(() => {
+
+
     const fetchPricing = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
@@ -256,6 +264,34 @@ const Pricing = () => {
 
         setError(
           err.message || "Could not load pricing data. Please try again."
+
+
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPricing();
+  }, []);
+
+ 
+
+      const response = await fetch(`${API_BASE_URL}/pricing`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+
         );
       } finally {
         setIsLoading(false);
@@ -267,6 +303,7 @@ const Pricing = () => {
 
   
  
+
 
 
 
