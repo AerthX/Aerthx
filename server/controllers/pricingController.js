@@ -1,40 +1,48 @@
 const PricingConfig = require("../models/PricingConfig");
+const IndividualPricingConfig = require("../models/IndividualPricingConfig");
 
 const getPricing = async (req, res) => {
   try {
-    const userType = req.query.userType;
+    // Only pricing logic uses lowercase.
+    // Existing "Organization" / "Individual" values elsewhere stay unchanged.
+    const userType = String(req.user.userType).toLowerCase();
 
-    const config = await PricingConfig.findOne({
-      configId: "pricing_master",
-    });
+    let config;
 
-    if (!config) {
-      return res.status(404).json({ message: "Pricing config not found" });
+    if (userType === "organization") {
+      // Organization pricing
+      config = await PricingConfig.findOne({
+        configId: "pricing_master",
+      });
+    } else {
+      // Individual pricing
+      config = await IndividualPricingConfig.findOne({
+        configId: "individual_pricing",
+      });
     }
 
-    const plans = Array.from(config.plans.values()).map((plan) => ({
-      name: plan.name,
+    if (!config) {
+      return res.status(404).json({
+        message: `${userType} pricing config not found`,
+      });
+    }
 
-      price:
-        userType === "organization"
-          ? plan.monthly?.organization
-          : plan.monthly?.individual,
+    const plans =
+      config.plans instanceof Map
+        ? Object.fromEntries(config.plans)
+        : config.plans || {};
 
-      // 🔥 FIXED HERE
-      features: Object.values(plan.features || {}).map((f) => {
-        if (typeof f === "string") return f;
-        if (f.label) return f.label;
-        if (f.name) return f.name;
-        return "Feature";
-      }),
-
-      highlight: plan.highlight,
-    }));
-
-    res.json({ plans });
+    return res.status(200).json({
+      plans,
+      featureGroups: config.featureGroups || [],
+      userType,
+    });
   } catch (error) {
     console.error("🔥 Pricing Error:", error);
-    res.status(500).json({ message: "Server error" });
+
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 

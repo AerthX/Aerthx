@@ -107,7 +107,8 @@ const normalizeMethod = () => {
       }
     );
 
-
+console.log("RAZORPAY KEY:", import.meta.env.VITE_RAZORPAY_KEY_ID);
+console.log("RAZORPAY ORDER:", data);
     // 2. Open Razorpay
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
@@ -118,6 +119,7 @@ const normalizeMethod = () => {
       order_id: data.id,
       config: {
   display: getDisplayConfig(),
+  
 },
 
      handler: async function (response) {

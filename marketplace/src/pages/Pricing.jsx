@@ -190,7 +190,7 @@ const calcSavings = (monthly, yearly) => {
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const Pricing = () => {
-  const [selectedUserType, setSelectedUserType] = useState("individual");
+  const [selectedUserType, setSelectedUserType] = useState(null);
   const [showContactSales, setShowContactSales] = useState(false);
   const [currentPlan, setCurrentPlan] = useState(null);
   const planOrder = ["plan_1", "plan_2", "plan_3"];
@@ -203,6 +203,15 @@ const Pricing = () => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+
+useEffect(() => {
+  const fetchPricing = async () => {
+    try {
+      // Get logged-in user from localStorage
+      const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+
+      // Get access token from localStorage
+      const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     const fetchPricing = async () => {
@@ -227,47 +236,63 @@ const Pricing = () => {
           {},
         );
 
-        setPricingData({
-          plans: processedPlans,
-          featureGroups: config.featureGroups || [],
-        });
-      } catch (err) {
-        console.error("Failed to fetch pricing config:", err);
-        setError("Could not load pricing data. Please try again.");
-      } finally {
-        setIsLoading(false);
+
+
+      if (!accessToken) {
+        throw new Error("No access token found. Please login again.");
       }
-    };
 
-    fetchPricing();
-  }, []);
+      const response = await fetch(`${API_BASE_URL}/pricing`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
-  useEffect(() => {
-  const fetchSubscription = async () => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user"));
-  
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
 
-      if (!user?.id) return;
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+        );
+      }
 
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/payment/subscription/${user.id}`,
-        { headers: { Authorization: `Bearer ${localStorage.getItem("accessToken") || ""}` } }
+      const config = await response.json();
+
+
+      // Backend tells us whether this is individual or organization
+      setSelectedUserType(config.userType);
+
+      const processedPlans = Object.entries(config.plans || {}).reduce(
+        (acc, [planKey, planValue]) => {
+          acc[planKey] = {
+            ...planValue,
+            key: planKey,
+            displayName: planValue.name,
+          };
+
+          return acc;
+        },
+        {}
       );
 
-      const data = await res.json();
-
-
-      if (data?.status === "active") {
-        setCurrentPlan(data.plan);
-      }
+      setPricingData({
+        plans: processedPlans,
+        featureGroups: config.featureGroups || [],
+      });
     } catch (err) {
-      console.error("Subscription fetch error:", err);
+      console.error("Failed to fetch pricing config:", err);
+      setError(err.message || "Could not load pricing data. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  fetchSubscription();
+  fetchPricing();
 }, []);
+
 
   if (showContactSales) {
     return <ContactSales onBack={() => setShowContactSales(false)} />;
@@ -504,7 +529,7 @@ const isUpgrade = planIndex > currentIndex;
     plan: plan.name,        // your plan
     billing: selectedBilling, // "monthly" or "yearly"
     price: selectedPrice,
-    userType: "organization"
+    userType: selectedUserType
   }
 });
         }
