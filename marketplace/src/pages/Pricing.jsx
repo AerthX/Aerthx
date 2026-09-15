@@ -213,6 +213,30 @@ useEffect(() => {
       // Get access token from localStorage
       const accessToken = localStorage.getItem("accessToken");
 
+  useEffect(() => {
+    const fetchPricing = async () => {
+      try {
+       const response = await fetch(`${API_BASE_URL}/pricing`, {
+  credentials: "include",
+});
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const config = await response.json();
+
+        const processedPlans = Object.entries(config.plans).reduce(
+          (acc, [planKey, planValue]) => {
+            acc[planKey] = {
+              ...planValue,
+              key: planKey,
+              displayName: planValue.name,
+            };
+            return acc;
+          },
+          {},
+        );
+
+
 
       if (!accessToken) {
         throw new Error("No access token found. Please login again.");
