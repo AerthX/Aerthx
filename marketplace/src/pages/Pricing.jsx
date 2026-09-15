@@ -257,7 +257,6 @@ const Pricing = () => {
         setError(
           err.message || "Could not load pricing data. Please try again."
 
-
         );
       } finally {
         setIsLoading(false);
@@ -297,6 +296,7 @@ const Pricing = () => {
     fetchPricing();
   }, []);
  
+
 
 
   if (showContactSales) {
