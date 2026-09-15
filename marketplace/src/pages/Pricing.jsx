@@ -216,31 +216,69 @@ useEffect(() => {
   useEffect(() => {
     const fetchPricing = async () => {
       try {
-       const response = await fetch(`${API_BASE_URL}/pricing`, {
-  credentials: "include",
-});
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const accessToken = localStorage.getItem("accessToken");
+
+        if (!accessToken) {
+          throw new Error("No access token found. Please login again.");
         }
+
+        const response = await fetch(`${API_BASE_URL}/pricing`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+
+          throw new Error(
+            errorData.message || `HTTP error! status: ${response.status}`
+          );
+        }
+
         const config = await response.json();
 
-        const processedPlans = Object.entries(config.plans).reduce(
+        setSelectedUserType(config.userType);
+
+        const processedPlans = Object.entries(config.plans || {}).reduce(
           (acc, [planKey, planValue]) => {
             acc[planKey] = {
               ...planValue,
               key: planKey,
               displayName: planValue.name,
             };
+
             return acc;
           },
-          {},
+          {}
         );
 
+
+        setPricingData({
+          plans: processedPlans,
+          featureGroups: config.featureGroups || [],
+        });
+      } catch (err) {
+        console.error("Failed to fetch pricing config:", err);
+        setError(
+          err.message || "Could not load pricing data. Please try again."
+        );
+      } finally {
+        setIsLoading(false);
 
 
       if (!accessToken) {
         throw new Error("No access token found. Please login again.");
+
       }
+
+
+    fetchPricing();
+  }, []);
+ 
 
       const response = await fetch(`${API_BASE_URL}/pricing`, {
         method: "GET",
@@ -292,6 +330,7 @@ useEffect(() => {
 
   fetchPricing();
 }, []);
+
 
 
   if (showContactSales) {
