@@ -204,6 +204,15 @@ const Pricing = () => {
 
   const navigate = useNavigate();
 
+useEffect(() => {
+  const fetchPricing = async () => {
+    try {
+      // Get logged-in user from localStorage
+      const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+
+      // Get access token from localStorage
+      const accessToken = localStorage.getItem("accessToken");
+
   useEffect(() => {
     const fetchPricing = async () => {
       try {
@@ -247,6 +256,7 @@ const Pricing = () => {
           {}
         );
 
+
         setPricingData({
           plans: processedPlans,
           featureGroups: config.featureGroups || [],
@@ -258,12 +268,70 @@ const Pricing = () => {
         );
       } finally {
         setIsLoading(false);
+
+
+      if (!accessToken) {
+        throw new Error("No access token found. Please login again.");
+
       }
-    };
+
 
     fetchPricing();
   }, []);
  
+
+      const response = await fetch(`${API_BASE_URL}/pricing`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const config = await response.json();
+
+
+      // Backend tells us whether this is individual or organization
+      setSelectedUserType(config.userType);
+
+      const processedPlans = Object.entries(config.plans || {}).reduce(
+        (acc, [planKey, planValue]) => {
+          acc[planKey] = {
+            ...planValue,
+            key: planKey,
+            displayName: planValue.name,
+          };
+
+          return acc;
+        },
+        {}
+      );
+
+      setPricingData({
+        plans: processedPlans,
+        featureGroups: config.featureGroups || [],
+      });
+    } catch (err) {
+      console.error("Failed to fetch pricing config:", err);
+      setError(err.message || "Could not load pricing data. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchPricing();
+}, []);
+
+
 
   if (showContactSales) {
     return <ContactSales onBack={() => setShowContactSales(false)} />;
