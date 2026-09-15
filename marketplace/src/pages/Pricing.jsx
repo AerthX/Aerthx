@@ -204,7 +204,7 @@ const Pricing = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+    useEffect(() => {
     const fetchPricing = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
@@ -247,47 +247,15 @@ const Pricing = () => {
           {}
         );
 
-
         setPricingData({
           plans: processedPlans,
           featureGroups: config.featureGroups || [],
         });
       } catch (err) {
         console.error("Failed to fetch pricing config:", err);
+
         setError(
           err.message || "Could not load pricing data. Please try again."
-
-
-        );
-      } finally {
-        setIsLoading(false);
-
-
-      if (!accessToken) {
-        throw new Error("No access token found. Please login again.");
-
-      }
-
-
-    fetchPricing();
-  }, []);
- 
-
-      const response = await fetch(`${API_BASE_URL}/pricing`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-
         );
       } finally {
         setIsLoading(false);
@@ -296,7 +264,6 @@ const Pricing = () => {
 
     fetchPricing();
   }, []);
- 
 
 
 
