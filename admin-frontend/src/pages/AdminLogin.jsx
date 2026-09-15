@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
 import heroBg from "../assets/servicesBg.jpg";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function AdminLogin() {
   const navigate = useNavigate();
