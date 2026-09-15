@@ -477,12 +477,12 @@ const isCustomPlan = incomingPlanName === "Enterprise" && isSubscription;
   const planDetails = availablePlans?.[incomingPlanName];
 
 const basePlanPrice = useMemo(() => {
-  if (isSubscription && planDetails) {
-          if (state?.billing === "Yearly") return Number(planDetails.yearly || 0);
-          return Number(planDetails.monthly || 0);
-      }
-      return Number(state?.base || 0); 
-}, [isSubscription, planDetails, state?.base, state?.billing]);
+  if (isSubscription) {
+    return Number(incomingPrice || 0);
+  }
+
+  return Number(state?.base || 0);
+}, [isSubscription, incomingPrice, state?.base]);
 
 
   const creditsPrice = useMemo(() => {

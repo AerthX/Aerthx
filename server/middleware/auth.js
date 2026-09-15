@@ -13,15 +13,29 @@ if (!token) {
   return res.status(401).json({ message: "No token provided" });
 }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userType = decoded.userType || (decoded.role === "organization" ? "Organization" : "Individual");
+
+   const userType =
+  decoded.userType ||
+  (decoded.role?.toLowerCase() === "organization"
+    ? "Organization"
+    : "Individual");
 
     let user;
-    if (userType === "Organization") {
-      user = await Organization.findById(decoded.id).select("-password");
-    } else {
-      user = await Individual.findById(decoded.id).select("-password");
-    }
+ if (userType === "Organization") {
+  user = await Organization.findById(decoded.id).select("-password");
 
+  console.log(
+    "PRICING AUTH - Organization found:",
+    !!user
+  );
+} else {
+  user = await Individual.findById(decoded.id).select("-password");
+
+  console.log(
+    "PRICING AUTH - Individual found:",
+    !!user
+  );
+}
     if (!user) return res.status(401).json({ message: "User not found or account is no longer active" });
 
     req.user = {

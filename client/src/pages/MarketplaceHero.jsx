@@ -106,7 +106,9 @@ const MarketplaceHero = () => {
           </p>
 
           <motion.a
-            href={marketplaceLink}
+            href={import.meta.env.VITE_MARKETPLACE_URL}
+    target="_blank"
+    rel="noopener noreferrer"
                         className="group relative inline-flex items-center justify-center space-x-3 bg-green-600 hover:bg-green-500 text-white font-semibold text-sm sm:text-lg py-3.5 sm:py-4 px-8 sm:px-14 rounded-full shadow-[0_0_25px_rgba(34,197,94,0.4)] transition-all duration-300 will-change-transform w-full sm:w-auto"
             whileHover={{ scale: 1.03 }}
           >
