@@ -204,14 +204,7 @@ const Pricing = () => {
 
   const navigate = useNavigate();
 
-
    useEffect(() => {
-
-
-    useEffect(() => {
-
-  useEffect(() => {
-
 
     const fetchPricing = async () => {
       try {
@@ -266,6 +259,7 @@ const Pricing = () => {
           err.message || "Could not load pricing data. Please try again."
 
 
+
         );
       } finally {
         setIsLoading(false);
@@ -291,6 +285,7 @@ const Pricing = () => {
 
         throw new Error(
           errorData.message || `HTTP error! status: ${response.status}`
+
 
         );
       } finally {
