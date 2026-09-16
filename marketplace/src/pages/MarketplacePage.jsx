@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { getMediaUrl } from "../utils/media";
 
 const MarketplacePage = () => {
   const [projects, setProjects] = useState([]);
@@ -121,7 +122,7 @@ const impactfulProjects = [...allProjects]
     <div className="w-full">
       <div className="relative w-full h-[650px] sm:h-[700px] lg:h-[850px] overflow-hidden shadow-lg">
         <img
-         src={`${import.meta.env.VITE_FILE_URL}${current.backgroundImage || current.image}`}
+       src={getMediaUrl(current.backgroundImage || current.image)}
           alt={current.title}
           className="w-full h-full object-cover absolute inset-0"
         />
@@ -188,14 +189,13 @@ const impactfulProjects = [...allProjects]
       {highestPricedProject && (
         <div className="mt-10 sm:mt-12 w-full bg-green-50 rounded-2xl shadow-lg flex flex-col lg:flex-row overflow-hidden px-4 sm:px-6 md:px-12 py-5 sm:py-6">
           <div className="sm:w-1/2 p-3">
-            <img
-           src={`${import.meta.env.VITE_FILE_URL}${
-                highestPricedProject.backgroundImage ||
-                highestPricedProject.image
-              }`}
-              alt={highestPricedProject.title}
-             className="w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow"
-            />
+     <img
+  src={getMediaUrl(
+    highestPricedProject.backgroundImage || highestPricedProject.image
+  )}
+  alt={highestPricedProject.title}
+  className="w-full h-64 sm:h-72 md:h-80 object-cover rounded-xl shadow"
+/>
           </div>
 
           <div className="lg:w-1/2 p-4 sm:p-6 flex flex-col justify-center">
@@ -240,13 +240,13 @@ const impactfulProjects = [...allProjects]
                 className="rounded-xl shadow-lg overflow-hidden relative group h-64 sm:h-72 cursor-pointer"
                 onClick={() => handleButtonClick(project._id)}
               >
-                <img
-                  src={`${import.meta.env.VITE_FILE_URL}${
-                    project.backgroundImage || project.image
-                  }`}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+           <img
+  src={`${import.meta.env.VITE_FILE_URL}${
+    project.backgroundImage || project.image
+  }`}
+  alt={project.title}
+  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+/>
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition" />
                 <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
                   <h3 className="text-lg font-semibold truncate">
@@ -306,11 +306,11 @@ const impactfulProjects = [...allProjects]
           className="rounded-xl shadow-lg overflow-hidden group relative h-72 cursor-pointer"
           onClick={() => handleButtonClick(project._id)}
         >
-          <img
-            src={`${import.meta.env.VITE_FILE_URL}${project.backgroundImage || project.image}`}
-            alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
+         <img
+  src={getMediaUrl(project.backgroundImage || project.image)}
+  alt={project.title}
+  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+/>
           <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition" />
           <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
             <h3 className="text-lg font-semibold truncate">{project.title}</h3>
@@ -410,13 +410,11 @@ const impactfulProjects = [...allProjects]
                 className="rounded-xl shadow-md hover:shadow-xl overflow-hidden relative group h-64 sm:h-72 cursor-pointer"
                 onClick={() => handleButtonClick(project._id)}
               >
-                <img
-                  src={`${import.meta.env.VITE_FILE_URL}${
-                    project.backgroundImage || project.image
-                  }`}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+               <img
+  src={getMediaUrl(project.backgroundImage || project.image)}
+  alt={project.title}
+  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+/>
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition" />
                 <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent text-white">
                   <h3 className="text-lg font-semibold truncate">{project.title}</h3>

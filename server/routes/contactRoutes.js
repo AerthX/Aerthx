@@ -17,7 +17,7 @@ router.post("/send-message", async (req, res) => {
     try {
    await sendEmail({
       from: `"AerthX Contact Form" <${process.env.MAIL_USER}>`, 
-      to: "support@aerthx.com", 
+      to: process.env.SUPPORT_EMAIL,
       subject: "New Contact Form Submission",
       text: `You got a message from ${name} (${email}):\n\n${message}`,
       html: `
@@ -60,7 +60,7 @@ router.post("/send-inquiry", async (req, res) => {
 
     await sendEmail({
       from: `"AerthX Inquiry" <${process.env.MAIL_USER}>`,
-      to: "support@aerthx.com",
+       to: process.env.SUPPORT_EMAIL,
       subject: `New High-Volume Inquiry: ${project}`,
       text: `You received a new inquiry for ${project} from ${name} (${email})`,
       html: mailMessage,

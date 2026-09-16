@@ -457,7 +457,7 @@ export default function Home() {
                                 Buy Credits
                             </Link>
                             <Link
-                                to={user ? "/profile" : "/signin"}
+                                to='/MarketplaceHero'
                                 className="bg-gray-700 hover:bg-gray-800 text-white font-bold py-4 px-10 rounded-full shadow-xl shadow-black/30 transition duration-300 transform hover:scale-105 border-2 border-gray-700 hover:border-emerald-500 text-center"
                             >
                                 Track Usage

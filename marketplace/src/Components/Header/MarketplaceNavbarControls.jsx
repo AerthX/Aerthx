@@ -177,7 +177,11 @@ if (window.location.pathname !== "/") {
  
        const data = await res.json();
        setNotifications(data.notifications || []);
-       setUnreadCount((data.notifications || []).filter(n => !n.read).length);
+       setUnreadCount(
+  (data.notifications || []).filter(
+    (notification) => notification.read === false
+  ).length
+);
      } catch (error) {
        console.error("Error fetching notifications:", error);
      }
@@ -236,7 +240,7 @@ if (window.location.pathname !== "/") {
           <div
             key={notification._id}
             className={`px-3 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm transition-all duration-200 cursor-pointer hover:bg-gray-100 active:bg-gray-200 ${
-  !notification.read
+  notification.read === false
     ? "bg-slate-50 border-l-4 border-indigo-500"
     : "bg-white"
 }`}
