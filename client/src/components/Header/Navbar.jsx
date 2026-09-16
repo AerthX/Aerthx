@@ -461,7 +461,7 @@ const token = localStorage.getItem("accessToken");
             ) : (
               <li className="hidden lg:block ml-auto">
                 <Link
-                  to="#waitlist"
+                  to="/MarketplaceHero"
                   onClick={(e) => {
                     const waitlistElement = document.getElementById('waitlist');
                     if (waitlistElement) {
@@ -469,9 +469,9 @@ const token = localStorage.getItem("accessToken");
                       waitlistElement.scrollIntoView({ behavior: 'smooth' });
                     }
                   }}
-                  className="px-5 py-2.5 text-sm font-semibold text-white bg-[#1A5C38] hover:bg-[#14472C] rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                  className="px-9 py-2.5 text-sm font-semibold text-white bg-[#1A5C38] hover:bg-[#14472C] focus:outline-2   rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  Join Waitlist
+                  Join 
                 </Link>
               </li>
             )}

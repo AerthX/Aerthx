@@ -50,10 +50,15 @@ const MarketPlace = () => {
     [projects]
   );
 
-  const vintages = useMemo(
-    () => [...new Set(projects.map((project) => String(project.vintage)).filter(Boolean))].sort().reverse(),
-    [projects]
-  );
+const vintages = useMemo(
+  () =>
+    [...new Set(
+      projects
+        .map((project) => String(project.vintage))
+        .filter(Boolean)
+    )].sort((a, b) => Number(b) - Number(a)),
+  [projects]
+);
 
   const filteredProjects = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
@@ -126,35 +131,35 @@ const MarketPlace = () => {
         </div>
 
         {filterOpen && (
-          <div className="bg-white/95 rounded-2xl shadow-xl px-4 sm:px-6 py-4 sm:py-5 mb-6 sm:mb-8 text-gray-900 border border-emerald-100">
+        <div className="bg-[#0b1f15]/95 backdrop-blur-md rounded-2xl shadow-xl px-4 sm:px-6 py-4 sm:py-5 mb-6 sm:mb-8 text-white border border-emerald-500/20">
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Category</label>
-                <select value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)} className="w-full bg-gray-100 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                <label className="block text-sm text-emerald-100/80 mb-1">Category</label>
+                <select value={selectedCategory} onChange={(event) => setSelectedCategory(event.target.value)} className="w-full bg-[#10291d] text-white border border-emerald-500/30 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                   <option value="">All Categories</option>
                   {categories.map((category) => <option key={category} value={category}>{category}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Country</label>
-                <select value={selectedPlace} onChange={(event) => setSelectedPlace(event.target.value)} className="w-full bg-gray-100 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                <label className="block text-sm text-emerald-100/80 mb-1">Country</label>
+                <select value={selectedPlace} onChange={(event) => setSelectedPlace(event.target.value)} className="w-full bg-[#10291d] text-white border border-emerald-500/30 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                   <option value="">All Countries</option>
                   {places.map((place) => <option key={place} value={place}>{place}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Vintage</label>
-                <select value={selectedVintage} onChange={(event) => setSelectedVintage(event.target.value)} className="w-full bg-gray-100 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                <label className="block text-sm text-emerald-100/80 mb-1">Vintage</label>
+                <select value={selectedVintage} onChange={(event) => setSelectedVintage(event.target.value)} className="w-full bg-[#10291d] text-white border border-emerald-500/30 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                   <option value="">Any Year</option>
                   {vintages.map((vintage) => <option key={vintage} value={vintage}>{vintage}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Price Range</label>
-                <select value={priceRange} onChange={(event) => setPriceRange(event.target.value)} className="w-full bg-gray-100 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                <label className="block text-sm text-emerald-100/80 mb-1">Price Range</label>
+                <select value={priceRange} onChange={(event) => setPriceRange(event.target.value)} className="w-full bg-[#10291d] text-white border border-emerald-500/30 px-4 py-2.5 rounded-xl sm:rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                   <option value="">All Prices</option>
                   {Object.entries(PRICE_RANGES).map(([key, range]) => <option key={key} value={key}>{range.label}</option>)}
                 </select>
@@ -196,7 +201,7 @@ const MarketPlace = () => {
                 <img
                   src={getMediaUrl(project.image, heroBg)}
                   alt={project.title}
-                  className="w-full h-44 sm:h-40 md:h-44 object-cover"
+                  className="w-full h-40 sm:h-56 md:h-60 object-cover"
                   loading="lazy"
                 />
                 <div className="p-4 sm:p-5 flex flex-col justify-between h-full">

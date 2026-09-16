@@ -172,7 +172,7 @@ const Resource = () => {
           </p>
           {!user && (
             <Link
-              to="/register-choice"
+              to="/MarketplaceHero"
               className="inline-flex items-center gap-2 px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 bg-green-500 text-white text-sm sm:text-base font-semibold rounded-full shadow-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
             >
               Get Started <span aria-hidden="true">→</span>
@@ -363,11 +363,11 @@ const Resource = () => {
         {!user && (
           <section className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-16 text-center shadow-xl sm:shadow-2xl animate-fade-in-up overflow-hidden border border-green-700/40">
             <div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center "
               style={{ backgroundImage: `url(${IMG_CTA_FOREST})` }}
             ></div>
             <div className="absolute inset-0 bg-gradient-to-br from-green-950/90 to-black/80"></div>
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-10 max-w-5xl mx-auto text-left md:text-left">
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 max-w-5xl mx-auto text-left md:text-left">
               <div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
                   Ready to Make a <span className="text-green-400">Real Impact</span>?
@@ -376,12 +376,12 @@ const Resource = () => {
                   Join AerthX today and take a significant step towards a more sustainable future for your business and the planet.
                 </p>
               </div>
-              <Link
-                to="/register-choice"
+              {/* <Link
+                to="/MarketplaceHero"
                 className="inline-block flex-shrink-0 px-6 sm:px-10 md:px-12 py-3 sm:py-4 text-sm sm:text-base bg-green-500 text-white font-semibold rounded-full shadow-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-300"
               >
                 Create Your Account →
-              </Link>
+              </Link> */}
             </div>
           </section>
         )}
