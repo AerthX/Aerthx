@@ -124,9 +124,6 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-[#03150d] text-white">
 
-      {/* =========================================================
-          HERO SECTION
-      ========================================================= */}
       <section className="relative min-h-[650px] flex items-center justify-center overflow-hidden">
 
         <div
@@ -203,9 +200,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          PRICING PLANS - DARK THEME
-      ========================================================= */}
       <section
         id="pricing-plans"
         className="relative py-20 sm:py-24 px-5 sm:px-8 bg-[#03150d] overflow-hidden"
@@ -435,9 +429,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          EVERYTHING YOU NEED - WHITE SECTION
-      ========================================================= */}
       <section
         id="pricing-details"
         className="py-20 sm:py-24 bg-white px-5 sm:px-8 border-t border-gray-100"
@@ -521,9 +512,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          HOW AERTHX PRICING WORKS - DARK
-      ========================================================= */}
       <section className="py-20 sm:py-24 bg-[#03150d] px-5 sm:px-8 border-t border-emerald-900/30">
 
         <div className="max-w-6xl mx-auto">
@@ -571,9 +559,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      {/* =========================================================
-          FINAL CTA
-      ========================================================= */}
       <section className="relative overflow-hidden bg-[#020e09] py-20 sm:py-24 px-5 sm:px-8 border-t border-emerald-900/30">
 
         <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl" />
@@ -623,9 +608,7 @@ const Pricing = () => {
   );
 };
 
-/* =============================================================
-   IMPACT CARD - WHITE THEME
-============================================================= */
+
 
 const ImpactCard = ({ icon, title, text }) => {
   return (
@@ -660,10 +643,6 @@ const ImpactCard = ({ icon, title, text }) => {
     </div>
   );
 };
-
-/* =============================================================
-   STRUCTURE CARD - DARK THEME
-============================================================= */
 
 const StructureCard = ({ icon, title, text }) => {
   return (
