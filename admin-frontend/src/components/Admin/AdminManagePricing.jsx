@@ -11,7 +11,7 @@ const AdminManagePricing = () => {
     const newGroupRef = useRef(null);
 
     const planKeys = Object.keys(plans);
-    const customPlanId = 'plan_3'; 
+    const customPlanId = 'plan_4'; 
 
     const generateUniqueId = () => `id_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
     const toFeatureKey = (label) => label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
@@ -31,22 +31,66 @@ const AdminManagePricing = () => {
       const data = await res.json();
 
       // FIX: Convert Map to normal object
-      const normalizedPlans = Object.fromEntries(
-        Object.entries(data.plans || {})
-      );
+     const normalizedPlans = Object.fromEntries(
+  Object.entries(data.plans || {})
+);
 
-      setPlans(normalizedPlans);
-      setFeatureGroups(data.featureGroups || []);
-      setIsEditing(false);
+// Add plan_4 if it doesn't exist
+if (!normalizedPlans.plan_4) {
+  normalizedPlans.plan_4 = {
+    id: "plan_4",
+    name: "Custom",
+    monthly: "Custom",
+    yearly: "Custom",
+    highlight: false,
+    features: {},
+  };
+}
+
+setPlans(normalizedPlans);
+setFeatureGroups(data.featureGroups || []);
+setIsEditing(false);
 
     } catch (err) {
       console.warn("No existing pricing config, initializing empty:", err.message);
 
-      const initialEmptyPlans = {
-        plan_1: { id: 'plan_1', name: "Basic", monthly: 0, yearly: 0, highlight: false, features: {} },
-        plan_2: { id: 'plan_2', name: "Pro", monthly: 0, yearly: 0, highlight: true, features: {} },
-        plan_3: { id: 'plan_3', name: "Custom", monthly: "Custom", yearly: "Custom", highlight: false, features: {} },
-      };
+    const initialEmptyPlans = {
+    plan_1: {
+        id: 'plan_1',
+        name: "Basic",
+        monthly: 0,
+        yearly: 0,
+        highlight: false,
+        features: {}
+    },
+
+    plan_2: {
+        id: 'plan_2',
+        name: "Pro",
+        monthly: 0,
+        yearly: 0,
+        highlight: true,
+        features: {}
+    },
+
+    plan_3: {
+        id: 'plan_3',
+        name: "Enterprise",
+        monthly: 0,
+        yearly: 0,
+        highlight: false,
+        features: {}
+    },
+
+    plan_4: {
+        id: 'plan_4',
+        name: "Custom",
+        monthly: "Custom",
+        yearly: "Custom",
+        highlight: false,
+        features: {}
+    },
+};
 
       setPlans(initialEmptyPlans);
       setFeatureGroups([]);
