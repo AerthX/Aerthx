@@ -23,6 +23,7 @@ import VerifyOtp from '../pages/VerifyOtp';
 import ContactUs from '../pages/ContactUs';
 import BugReport from '../pages/BugReport';
 import PricingGateway from '../pages/PricingGateway';
+import PlanDetails from "../pages/PlanDetails";
 
 import GlobalLogout from '../pages/GlobalLogout';
 
@@ -43,7 +44,7 @@ const router = createBrowserRouter(
  <Route path="/solutions/individuals" element={<IndividualSolutions/>}/>
  	 <Route path="/solutions/api" element={<APIIntegration/>}/>
  	 	 <Route path="/contactus" element={<ContactUs/>}/>
-
+<Route path="/pricing/:planId" element={<PlanDetails />} />
  	 </Route>
  <Route path="/register-choice" element={<RegisterChoice 	/>} />
  <Route path="/register" element={<Register/>}/>
