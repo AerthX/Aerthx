@@ -223,6 +223,7 @@ const Pricing = () => {
   const [currentDuration, setCurrentDuration] = useState(null);
 
   const [selectedBilling, setSelectedBilling] = useState("monthly");
+  const [expandedPlans, setExpandedPlans] = useState({});
 
   const [pricingData, setPricingData] = useState({
     plans: {},
@@ -282,6 +283,13 @@ const Pricing = () => {
     "plan_3",
     "plan_4",
   ];
+
+  const togglePlanFeatures = (planKey) => {
+  setExpandedPlans((prev) => ({
+    ...prev,
+    [planKey]: !prev[planKey],
+  }));
+};
 
   /*
    * Fetch organization pricing.
@@ -525,7 +533,7 @@ const Pricing = () => {
 
       {/* PRICING */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start">
           {planOrder.map((planKey) => {
             const plan = plans[planKey];
 
@@ -573,12 +581,13 @@ const Pricing = () => {
               isSamePlan &&
               currentDuration === selectedBilling;
 
-            const isEnterprise =
-              planKey === "plan_4" ||
-              plan.name?.toLowerCase() ===
-                "enterprise" ||
-              plan.name?.toLowerCase() ===
-                "custom";
+        const isCustomPlan =
+  planKey === "plan_4" ||
+  plan.name?.toLowerCase() === "custom";
+
+const isEnterprise =
+  isCustomPlan ||
+  plan.name?.toLowerCase() === "enterprise";
 
             const isUpgrade =
               currentPlan &&
@@ -588,11 +597,11 @@ const Pricing = () => {
             return (
               <article
                 key={planKey}
-                className={`relative rounded-3xl border transition-all duration-300 ${
-                  plan.highlight
-                    ? "bg-gradient-to-b from-[#087a5b] to-[#034d3b] border-emerald-400/70 shadow-2xl shadow-emerald-950/50 xl:scale-[1.03]"
-                    : "bg-[#062d22] border-emerald-900/70 hover:border-emerald-600 hover:-translate-y-2 shadow-xl"
-                }`}
+               className={`relative flex flex-col rounded-3xl border transition-all duration-300 ${
+  plan.highlight
+    ? "bg-gradient-to-b from-[#087a5b] to-[#034d3b] border-emerald-400/70 shadow-2xl shadow-emerald-950/50"
+    : "bg-[#062d22] border-emerald-900/70 hover:border-emerald-600 shadow-xl"
+}`}
               >
                 {plan.highlight && (
                   <MostPopularBadge />
@@ -625,7 +634,7 @@ const Pricing = () => {
 
                   {/* PRICE */}
                   <div className="min-h-[100px]">
-                    {isEnterprise ? (
+                    {isCustomPlan ? (
                       <>
                         <div className="text-3xl sm:text-4xl font-extrabold">
                           Custom
@@ -694,138 +703,164 @@ const Pricing = () => {
                     }`}
                   />
 
-                  {/* FEATURES */}
-                  <div className="min-h-[280px]">
-                    {featureGroups.length > 0 ? (
-                      featureGroups.map(
-                        ({
-                          groupTitle,
-                          features,
-                        }) => (
-                          <section
-                            key={groupTitle}
-                            className="mb-7"
-                          >
-                            <h3
-                              className={`text-sm font-bold mb-4 ${
-                                plan.highlight
-                                  ? "text-emerald-100"
-                                  : "text-emerald-400"
-                              }`}
-                            >
-                              {groupTitle}
-                            </h3>
+           
+{/* FEATURES */}
+<div className="flex-1">
 
-                            <ul className="space-y-3">
-                              {features.map(
-                                ({
-                                  key,
-                                  label,
-                                  tooltip,
-                                }) => {
-                                  const value =
-                                    plan.features?.[
-                                      key
-                                    ];
+  {featureGroups.length > 0 ? (
+    featureGroups.map(({ groupTitle, features }) => {
 
-                                  const available =
-                                    value !== false &&
-                                    value !==
-                                      undefined &&
-                                    value !== null;
+      const isExpanded = expandedPlans[planKey];
+      const visibleFeatures = isExpanded
+        ? features
+        : features.slice(0, 2);
 
-                                  const display =
-                                    typeof value ===
-                                      "string" &&
-                                    ![
-                                      "true",
-                                      "false",
-                                      "custom",
-                                    ].includes(
-                                      value.toLowerCase()
-                                    )
-                                      ? value
-                                      : null;
+      const remainingCount = Math.max(
+        features.length - visibleFeatures.length,
+        0
+      );
 
-                                      const isCustomPlan = plan.id === "plan_4";
+      return (
+        <section key={groupTitle} className="mb-6">
 
-                                  return (
-                                    <li
-                                      key={key}
-                                      className={`flex items-start gap-3 text-xs sm:text-sm leading-relaxed ${
-                                        available
-                                          ? plan.highlight
-                                            ? "text-gray-100"
-                                            : "text-gray-300"
-                                          : "text-gray-500"
-                                      }`}
-                                    >
-                                   {available || isCustomPlan ? (
-  <FaCheckCircle
-    className={`flex-shrink-0 mt-0.5 ${
-      plan.highlight
-        ? "text-emerald-200"
-        : "text-emerald-400"
-    }`}
-    size={18}
-  />
-) : (
-  <FaTimesCircle
-    className="flex-shrink-0 mt-0.5 text-gray-600"
-    size={18}
-  />
-)}
+          <h3
+            className={`text-sm font-bold mb-4 ${
+              plan.highlight
+                ? "text-emerald-100"
+                : "text-emerald-400"
+            }`}
+          >
+            {groupTitle}
+          </h3>
 
-                                  <span
-  className={
-    !available && !isCustomPlan
-      ? "line-through"
-      : ""
-  }
->
-  {label}
+          <ul className="space-y-3">
 
-                                        {tooltip && (
-                                          <Tooltip
-                                            text={
-                                              tooltip
-                                            }
-                                          />
-                                        )}
-                                      </span>
+            {visibleFeatures.map(({ key, label, tooltip }) => {
 
-                                      {display && (
-                                        <span className="ml-auto font-semibold">
-                                          {display}
-                                        </span>
-                                      )}
-                                    </li>
-                                  );
-                                }
-                              )}
-                            </ul>
-                          </section>
-                        )
-                      )
-                    ) : (
-                      <ul className="space-y-4 text-sm text-gray-400">
-                        <li className="flex items-center gap-3">
-                          <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
-                          Sustainability dashboard
-                        </li>
+              const value = plan.features?.[key];
 
-                        <li className="flex items-center gap-3">
-                          <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
-                          Carbon offset management
-                        </li>
+              const available =
+                value !== false &&
+                value !== undefined &&
+                value !== null;
 
-                        <li className="flex items-center gap-3">
-                          <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
-                          Impact tracking
-                        </li>
-                      </ul>
-                    )}
-                  </div>
+              const display =
+                typeof value === "string" &&
+                !["true", "false", "custom"].includes(
+                  value.toLowerCase()
+                )
+                  ? value
+                  : null;
+
+
+
+              return (
+                <li
+                  key={key}
+                  className={`flex items-start gap-3 text-xs sm:text-sm leading-relaxed ${
+                    available || isCustomPlan
+                      ? plan.highlight
+                        ? "text-gray-100"
+                        : "text-gray-300"
+                      : "text-gray-500"
+                  }`}
+                >
+
+                  {available || isCustomPlan ? (
+                    <FaCheckCircle
+                      className={`flex-shrink-0 mt-0.5 ${
+                        plan.highlight
+                          ? "text-emerald-200"
+                          : "text-emerald-400"
+                      }`}
+                      size={16}
+                    />
+                  ) : (
+                    <FaTimesCircle
+                      className="flex-shrink-0 mt-0.5 text-gray-600"
+                      size={16}
+                    />
+                  )}
+
+                  <span
+                    className={
+                      !available && !isCustomPlan
+                        ? "line-through"
+                        : ""
+                    }
+                  >
+                    {label}
+
+                    {tooltip && <Tooltip text={tooltip} />}
+                  </span>
+
+                  {display && (
+                    <span className="ml-auto font-semibold">
+                      {display}
+                    </span>
+                  )}
+
+                </li>
+              );
+            })}
+
+          </ul>
+
+          {!isExpanded && remainingCount > 0 && (
+            <p className="mt-3 text-xs text-emerald-400">
+              + {remainingCount} more features
+            </p>
+          )}
+
+        </section>
+      );
+    })
+  ) : (
+    <ul className="space-y-4 text-sm text-gray-400">
+      <li className="flex items-center gap-3">
+        <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
+        Sustainability dashboard
+      </li>
+
+      <li className="flex items-center gap-3">
+        <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
+        Carbon offset management
+      </li>
+
+      <li className="flex items-center gap-3">
+        <FaCheckCircle className="text-emerald-400 flex-shrink-0" />
+        Impact tracking
+      </li>
+    </ul>
+  )}
+
+  {/* EXPAND / COLLAPSE */}
+  {featureGroups.length > 0 && (
+    <button
+      type="button"
+      onClick={() => togglePlanFeatures(planKey)}
+      aria-expanded={!!expandedPlans[planKey]}
+      className={`mt-3 inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
+        plan.highlight
+          ? "text-emerald-100 hover:text-white"
+          : "text-emerald-400 hover:text-emerald-300"
+      }`}
+    >
+      {expandedPlans[planKey]
+        ? "Show less"
+        : "View all features"}
+
+      <span
+        className={`transition-transform duration-300 ${
+          expandedPlans[planKey] ? "rotate-180" : ""
+        }`}
+      >
+        ↓
+      </span>
+    </button>
+  )}
+
+</div>
 
                   {/* BUY BUTTON */}
                   <button
@@ -833,10 +868,10 @@ const Pricing = () => {
                       isCurrent || isLower
                     }
                     onClick={() => {
-                      if (isEnterprise) {
-                        setShowContactSales(true);
-                        return;
-                      }
+                      if (isCustomPlan) {
+  setShowContactSales(true);
+  return;
+}
 
                       if (
                         isCurrent ||
@@ -874,8 +909,8 @@ const Pricing = () => {
                       ? "Current Plan"
                       : isLower
                       ? "Downgrade Disabled"
-                      : isEnterprise
-                      ? "Contact Sales"
+                    : isCustomPlan
+? "Contact Sales"
                       : isUpgrade
                       ? "Buy Now"
                       : "Buy Now"}
