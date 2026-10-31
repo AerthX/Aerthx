@@ -59,6 +59,7 @@ const pricingPlans = [
   },
 ];
 
+
   return (
     <div className="min-h-screen bg-[#03150d] text-white">
 
