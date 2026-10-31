@@ -8,7 +8,6 @@
   import { CiSearch } from "react-icons/ci";
   import { FaBell } from "react-icons/fa";
   import aerthxlogo from "../../assets/aerthxLogo.png";
-  import SubscriptionStatus from "../SubscriptionStatus";
 
   const MarketplaceHeroNavbarControls = ({ onSearch }) => {
     const dispatch = useDispatch();
@@ -200,16 +199,7 @@ if (window.location.pathname !== "/") {
           <div className="relative flex items-center gap-2 sm:gap-4 shrink-0">
             {isAuthenticated ? (
               <div className="flex items-center gap-2 sm:gap-4">
-        <SubscriptionStatus
-  userId={user?.id}
-  onSubscribe={() =>
-    navigate(
-      userType === "organization"
-        ? "/MarketplaceHero/pricing"
-        : "/MarketplaceHero/individual-pricing"
-    )
-  }
-/>
+        
                 <div className="relative" ref={notificationsRef}>
                   <button
                     onClick={toggleNotifications}
