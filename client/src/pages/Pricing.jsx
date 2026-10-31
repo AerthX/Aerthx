@@ -59,43 +59,6 @@ const pricingPlans = [
   },
 ];
 
-  const getPlanIcon = (name) => {
-    const normalizedName = name?.toLowerCase();
-
-    if (normalizedName?.includes("sme")) {
-      return <FaLeaf />;
-    }
-
-    if (normalizedName?.includes("business")) {
-      return <FaBuilding />;
-    }
-
-    if (normalizedName?.includes("enterprise")) {
-      return <FaUsers />;
-    }
-
-    return <FaGlobe />;
-  };
-
-  const getPlanDescription = (name) => {
-    const normalizedName = name?.toLowerCase();
-
-    if (normalizedName?.includes("sme")) {
-      return "Essential sustainability tools for growing businesses.";
-    }
-
-    if (normalizedName?.includes("business")) {
-      return "Advanced carbon management for businesses scaling their impact.";
-    }
-
-    if (normalizedName?.includes("enterprise")) {
-      return "Comprehensive sustainability infrastructure for large organizations.";
-    }
-
-    return "A flexible sustainability solution tailored to your organization.";
-  };
-
-
   return (
     <div className="min-h-screen bg-[#03150d] text-white">
 

@@ -339,7 +339,7 @@ const impactfulProjects = [...allProjects]
     <p className="text-gray-600 mb-8 max-w-2xl">
       Categories group different project types together. Each category represents a major way to fight climate change.
     </p>
-<div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-green-400 scrollbar-track-green-100">
+<div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
   {Object.entries(creditsByType).map(([category, data]) => (
     <div
       key={category}
@@ -439,7 +439,7 @@ const impactfulProjects = [...allProjects]
           <button
             onClick={() => {
               if (isUserLoggedIn()) {
-                navigate("/marketplace");
+                navigate("/MarketplaceHero");
               } else {
                 setShowAuthModal(true);
               }
