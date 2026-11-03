@@ -179,10 +179,14 @@ const token = localStorage.getItem("accessToken");
             className="flex items-center cursor-pointer flex-shrink-0"
             onClick={() => navigate("/")}
           >
-  <img
+ <img
   src="/logo_aerthx.png"
   alt="AerthX Logo"
-  className="h-20 sm:h-24 md:h-28 w-auto object-contain -translate-y-1 sm:translate-y-0 hover:scale-105 transition-all duration-300"
+  className="h-12 w-auto max-w-[120px] object-contain
+             sm:h-14 sm:max-w-[140px]
+             md:h-16 md:max-w-[160px]
+             lg:h-20 lg:max-w-[180px]
+             transition-all duration-300 hover:scale-105"
 />
           </div>
           {/* HAMBURGER BUTTON */}
@@ -195,28 +199,69 @@ const token = localStorage.getItem("accessToken");
           </button>
 
           {/* NAVIGATION MENU */}
+          {/* MOBILE MENU BACKDROP */}
+{menuOpen && (
+  <button
+    type="button"
+    aria-label="Close navigation menu"
+    onClick={() => setMenuOpen(false)}
+    className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
+  />
+)}  
           <ul
             className={`
-              ${menuOpen ? "flex" : "hidden"}
-              lg:flex
-              flex-col lg:flex-row
-              absolute lg:static
-              top-20 lg:top-0
-              left-0
-              w-full lg:w-auto
-              bg-slate-950/95 lg:bg-transparent
-              shadow-lg lg:shadow-none
-              border-t border-slate-800/70 lg:border-0
-              p-3 sm:p-4 lg:p-0
-              gap-1 lg:gap-1
-              text-sm font-medium text-slate-100
-              z-40
-              lg:items-center
-              rounded-b-2xl lg:rounded-none
-              max-h-[calc(100vh-80px)] lg:max-h-none
-              overflow-y-auto lg:overflow-y-visible
-            `}
+  fixed inset-y-0 left-0 z-[70]
+  flex flex-col
+  h-screen w-[80vw] max-w-[340px]
+  overflow-y-auto
+  bg-[#07150e]/95 backdrop-blur-2xl
+  border-r border-emerald-500/20
+  px-4 pt-4 pb-6
+  shadow-2xl
+  transition-transform duration-300 ease-in-out
+  ${menuOpen ? "translate-x-0" : "-translate-x-full"}
+
+  lg:static lg:z-auto
+  lg:h-auto lg:w-auto lg:max-w-none
+  lg:translate-x-0
+  lg:flex-row lg:items-center
+  lg:overflow-visible
+  lg:border-none lg:bg-transparent
+  lg:p-0 lg:shadow-none lg:backdrop-blur-none
+`}
           >
+
+{/* MOBILE DRAWER HEADER */}
+<li className="flex items-center justify-between px-2 pb-6 mb-6 border-b border-emerald-500/20 lg:hidden">
+ <img
+  src="/logo_aerthx.png"
+  alt="AerthX"
+  className="h-20 w-auto max-w-[200px] object-contain
+             min-[390px]:h-24 min-[390px]:max-w-[220px]
+             sm:h-28 sm:max-w-[240px]
+             transition-all duration-300"
+/>
+
+  <button
+    onClick={() => setMenuOpen(false)}
+    className="w-10 h-10 flex items-center justify-center rounded-full text-white hover:bg-white/10 transition-colors"
+    aria-label="Close menu"
+  >
+    <svg
+      className="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </button>
+</li>
             {/* MOBILE AUTH BUTTONS */}
             {isAuthenticated && (
               <div className="flex lg:hidden items-center justify-center gap-2 sm:gap-3 py-3 border-t border-slate-800/70">
@@ -312,36 +357,52 @@ const token = localStorage.getItem("accessToken");
             
             {/* NAV ITEMS */}
             <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg transition-all duration-200 ${isActive ? "text-emerald-300 font-semibold" : "text-slate-200 hover:text-white hover:bg-slate-900/70"}`
-                }
-              >
-                Home
-              </NavLink>
+              
+            <NavLink
+  to="/"
+  onClick={() => setMenuOpen(false)}
+  className={({ isActive }) =>
+    `flex items-center w-full px-4 py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${
+      isActive
+        ? "bg-emerald-500/15 text-emerald-300"
+        : "text-slate-200 hover:bg-white/5 hover:text-white"
+    }`
+  }
+>
+  Home
+</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/MarketplaceHero"
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg transition-all duration-200 ${isActive ? "text-emerald-300 font-semibold" : "text-slate-200 hover:text-white hover:bg-slate-900/70"}`
-                }
-              >
-                Marketplace
-              </NavLink>
+           <NavLink
+  to="/MarketplaceHero"
+  onClick={() => setMenuOpen(false)}
+  className={({ isActive }) =>
+    `flex items-center w-full px-4 py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${
+      isActive
+        ? "bg-emerald-500/15 text-emerald-300"
+        : "text-slate-200 hover:bg-white/5 hover:text-white"
+    }`
+  }
+>
+  Marketplace
+</NavLink>  
             </li>
 
             <li className="relative group">
-              <NavLink
-                to="/solutions"
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-200 ${isActive ? "text-emerald-300 font-semibold" : "text-slate-200 hover:text-white hover:bg-slate-900/70"}`
-                }
-              >
-                Solutions
-                <span className="text-xs">▾</span>
-              </NavLink>
+           <NavLink
+  to="/solutions"
+  onClick={() => setMenuOpen(false)}
+  className={({ isActive }) =>
+    `flex items-center w-full px-4 py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${
+      isActive
+        ? "bg-emerald-500/15 text-emerald-300"
+        : "text-slate-200 hover:bg-white/5 hover:text-white"
+    }`
+  }
+>
+  Solutions
+  <span className="text-xs ml-2">▾</span>
+</NavLink>
               <div className="absolute left-0 top-full mt-0 bg-slate-950/95 rounded-xl shadow-lg border border-slate-800 px-3 py-2 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transform translate-y-1 group-hover:translate-y-0 transition-all duration-200 min-w-[160px]">
                 <Link to="/solutions/business" className="block px-3 py-2 rounded-lg text-sm text-slate-100 hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors">
                   For Businesses
@@ -352,34 +413,49 @@ const token = localStorage.getItem("accessToken");
               </div>
             </li>
             <li>
-              <NavLink
-                to="/services"
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg transition-all duration-200 ${isActive ? "text-emerald-300 font-semibold" : "text-slate-200 hover:text-white hover:bg-slate-900/70"}`
-                }
-              >
-                Services
-              </NavLink>
+            <NavLink
+  to="/services"
+  onClick={() => setMenuOpen(false)}
+  className={({ isActive }) =>
+    `flex items-center w-full px-4 py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${
+      isActive
+        ? "bg-emerald-500/15 text-emerald-300"
+        : "text-slate-200 hover:bg-white/5 hover:text-white"
+    }`
+  }
+>
+  Services
+</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/pricing"
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg transition-all duration-200 ${isActive ? "text-emerald-300 font-semibold" : "text-slate-200 hover:text-white hover:bg-slate-900/70"}`
-                }
-              >
-                Pricing
-              </NavLink>
+             <NavLink
+  to="/pricing"
+  onClick={() => setMenuOpen(false)}
+  className={({ isActive }) =>
+    `flex items-center w-full px-4 py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${
+      isActive
+        ? "bg-emerald-500/15 text-emerald-300"
+        : "text-slate-200 hover:bg-white/5 hover:text-white"
+    }`
+  }
+>
+  Pricing
+</NavLink>
             </li>
             <li>
-              <NavLink
-                to="/resources"
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg transition-all duration-200 ${isActive ? "text-emerald-300 font-semibold" : "text-slate-200 hover:text-white hover:bg-slate-900/70"}`
-                }
-              >
-                Resources
-              </NavLink>
+           <NavLink
+  to="/resources"
+  onClick={() => setMenuOpen(false)}
+  className={({ isActive }) =>
+    `flex items-center w-full px-4 py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-200 ${
+      isActive
+        ? "bg-emerald-500/15 text-emerald-300"
+        : "text-slate-200 hover:bg-white/5 hover:text-white"
+    }`
+  }
+>
+  Resources
+</NavLink>
             </li>
 
             {/* AUTHENTICATED ACTIONS */}
@@ -436,7 +512,7 @@ const token = localStorage.getItem("accessToken");
                   )}
                 </li>
                 <li className="relative" ref={dropdownRef}>
-                  <button
+                  <button 
                     onClick={() => {
                       setDropdownOpen(!dropdownOpen);
                       setNotificationsOpen(false);
